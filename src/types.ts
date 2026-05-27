@@ -87,8 +87,8 @@ export type {
 export {
   type Disambiguation,
   type File,
-  type Piece,
-  type PromotionPiece,
+  type PieceType,
+  type PromotionPieceType,
   type Rank,
   type SAN,
   type Square,
