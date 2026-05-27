@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [4.1.0] - 2026-05-28
+
+### Changed
+
+- Re-exported `PieceType` and `PromotionPieceType` from `@echecs/san` instead of
+  the removed `Piece` and `PromotionPiece` aliases.
+
 ## [5.0.0] - 2026-04-28
 
 ### Changed
