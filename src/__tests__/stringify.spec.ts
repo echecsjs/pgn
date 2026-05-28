@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
-import parse, { stringify } from '../index.js';
+import { parse, stringify } from '../index.js';
 
 function readFile(path: string): string {
   const filename = require.resolve(path);

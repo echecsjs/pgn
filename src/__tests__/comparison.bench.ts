@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { parse as pgnParserParse } from 'pgn-parser';
 import { bench, describe } from 'vitest';
 
-import parse from '../index.js';
+import { parse } from '../index.js';
 
 function readFile(path: string): string {
   const filename = require.resolve(path);

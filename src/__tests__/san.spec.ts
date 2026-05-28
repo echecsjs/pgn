@@ -12,7 +12,7 @@
 
 import { describe, expect, it } from 'vitest';
 
-import parse from '../index.js';
+import { parse } from '../index.js';
 
 /** Parse a move string as white's first move and return the Notation object. */
 function white(san: string) {

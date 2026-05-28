@@ -41,4 +41,4 @@ function parse(input: string, options?: ParseOptions): PGN[] {
   }
 }
 
-export default parse;
+export { parse };
