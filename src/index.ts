@@ -23,7 +23,7 @@ export type {
   Variation,
 } from './types.js';
 
-export { default } from './parse.js';
+export { parse } from './parse.js';
 
 export { stream } from './stream.js';
 
