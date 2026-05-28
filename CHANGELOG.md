@@ -8,21 +8,20 @@ and this project adheres to
 
 ## [Unreleased]
 
-## [4.1.0] - 2026-05-28
+## [5.0.0] - 2026-05-28
 
 ### Changed
 
+- **BREAKING:** `parse` is now a named export instead of the default export. Use
+  `import { parse } from '@echecs/pgn'` instead of
+  `import parse from '@echecs/pgn'`.
+- **BREAKING:** renamed `Move` type to `Notation` to avoid confusion with
+  coordinate moves.
+- **BREAKING:** renamed `MovePair` to `NotationPair`.
+- **BREAKING:** renamed `MoveList` to `NotationList`.
+- `Variation` type definition updated to `NotationList[]` (name unchanged).
 - Re-exported `PieceType` and `PromotionPieceType` from `@echecs/san` instead of
   the removed `Piece` and `PromotionPiece` aliases.
-
-## [5.0.0] - 2026-04-28
-
-### Changed
-
-- renamed `Move` type to `Notation` to avoid confusion with coordinate moves
-- renamed `MovePair` to `NotationPair`
-- renamed `MoveList` to `NotationList`
-- `Variation` type definition updated to `NotationList[]` (name unchanged)
 
 ## [4.0.0] - 2026-04-27
 
