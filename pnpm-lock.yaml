@@ -33,7 +33,7 @@ importers:
         version: 4.1.7(vitest@4.1.7)
       '@vitest/eslint-plugin':
         specifier: ^1.6.18
-        version: 1.6.18(@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.0(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)(vitest@4.1.7)
+        version: 1.6.19(@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.0(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)(vitest@4.1.7)
       chess.js:
         specifier: ^1.4.0
         version: 1.4.0
@@ -899,13 +899,6 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
-  '@typescript-eslint/utils@8.60.0':
-    resolution: {integrity: sha512-HtXuPfrHTyBDkameWpl+vJb1Uevu2tznAyahM1Oc4AENidCLTPiZDWIo4GfcxNdC/RcfGcadzzkqbRG87dUrQA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
-      typescript: '>=4.8.4 <6.1.0'
-
   '@typescript-eslint/utils@8.60.1':
     resolution: {integrity: sha512-h2MPBLoNtjc3qZWfY3Tl51yPorQ2McHn8pJfcMNTcIvrrZrr90Ykffit0yjrPFWQcRcUxzH20+6OcVdW4yHtUg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1033,8 +1026,8 @@ packages:
       '@vitest/browser':
         optional: true
 
-  '@vitest/eslint-plugin@1.6.18':
-    resolution: {integrity: sha512-J6U4X0jH3NwTuYouvrJn6I8ypTOU+GhKEjyVwpoPnDuc23usa/xi/R0caWLBbNp3xLy3/rL1YkuJuneTMVV4Mg==}
+  '@vitest/eslint-plugin@1.6.19':
+    resolution: {integrity: sha512-zodmXRsVKFsuHxHJILuTFaaKsrsxm0YsiOX65clk+LpCW9JrVXaf6ERXr0caDs+NEk0S62Jyk0K7XYQ7gWXheA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': '*'
@@ -2701,17 +2694,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.60.0(eslint@10.4.0)(typescript@6.0.3)':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@10.4.0)
-      '@typescript-eslint/scope-manager': 8.60.0
-      '@typescript-eslint/types': 8.60.0
-      '@typescript-eslint/typescript-estree': 8.60.0(typescript@6.0.3)
-      eslint: 10.4.0
-      typescript: 6.0.3
-    transitivePeerDependencies:
-      - supports-color
-
   '@typescript-eslint/utils@8.60.1(eslint@10.4.0)(typescript@6.0.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.4.0)
@@ -2806,10 +2788,10 @@ snapshots:
       tinyrainbow: 3.1.0
       vitest: 4.1.7(@types/node@25.9.1)(@vitest/coverage-v8@4.1.7)(vite@6.4.1(@types/node@25.9.1)(yaml@2.9.0))
 
-  '@vitest/eslint-plugin@1.6.18(@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.0(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)(vitest@4.1.7)':
+  '@vitest/eslint-plugin@1.6.19(@typescript-eslint/eslint-plugin@8.60.1(@typescript-eslint/parser@8.60.0(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)(vitest@4.1.7)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.60.0
-      '@typescript-eslint/utils': 8.60.0(eslint@10.4.0)(typescript@6.0.3)
+      '@typescript-eslint/scope-manager': 8.60.1
+      '@typescript-eslint/utils': 8.60.1(eslint@10.4.0)(typescript@6.0.3)
       eslint: 10.4.0
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 8.60.1(@typescript-eslint/parser@8.60.0(eslint@10.4.0)(typescript@6.0.3))(eslint@10.4.0)(typescript@6.0.3)
