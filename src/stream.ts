@@ -81,6 +81,11 @@ export async function* stream(
     // Result tokens (1-0, 0-1, 1/2-1/2, *) are only attempted at characters
     // '1', '0', '*' when depth === 0 and !inString — O(n) regex work.
     const MAX_TOKEN_LEN = 7; // len("1/2-1/2")
+    const RESULT_STARTS: ReadonlySet<string | undefined> = new Set([
+      '0',
+      '1',
+      '*',
+    ]);
     const re = /(?:1-0|0-1|1\/2-1\/2|\*)(?=[ \t\n\r]|$)/g;
     let lastIndex = 0;
     const tokenStart = Math.max(0, scanOffset - (MAX_TOKEN_LEN - 1));
@@ -117,11 +122,7 @@ export async function* stream(
 
       // Token detection at depth 0, only at characters that can start a
       // result token ('1', '0', '*'). Regex is called at most once per candidate.
-      if (
-        !inString &&
-        depth === 0 &&
-        (ch === '1' || ch === '0' || ch === '*')
-      ) {
+      if (!inString && depth === 0 && RESULT_STARTS.has(ch)) {
         re.lastIndex = index;
         const m = re.exec(buffer);
         if (m && m.index === index) {

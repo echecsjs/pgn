@@ -56,6 +56,13 @@ export default typescript.config(
       'no-console': 'warn',
       'sort-imports': ['error', { ignoreDeclarationSort: true }],
       'sort-keys': 'error',
+      'unicorn/filename-case': [
+        'error',
+        {
+          case: 'kebabCase',
+          ignore: [/^__tests__$/],
+        },
+      ],
     },
   },
   /**
