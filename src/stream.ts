@@ -120,7 +120,7 @@ export async function* stream(
       if (
         !inString &&
         depth === 0 &&
-        (ch === '1' || ch === '0' || ch === '*')
+        ['0', '1', '*'].includes(ch)
       ) {
         re.lastIndex = index;
         const m = re.exec(buffer);
