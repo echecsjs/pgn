@@ -11,7 +11,7 @@ function warnMissingSTR(games: PGN[], options: ParseOptions | undefined): void {
   }
   for (const game of games) {
     for (const key of STR_TAGS) {
-      if (!(key in game.meta)) {
+      if (!Object.hasOwn(game.meta, key)) {
         options.onWarning({
           column: 1,
           line: 1,

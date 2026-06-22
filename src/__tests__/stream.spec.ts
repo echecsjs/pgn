@@ -162,7 +162,9 @@ describe('stream()', () => {
     const warnings: unknown[] = [];
     const games = await collect(
       stream(fromArray(['1. e4 1-0\n']), {
-        onWarning: (w) => warnings.push(w),
+        onWarning: (w) => {
+          warnings.push(w);
+        },
       }),
     );
     expect(games).toHaveLength(1);
@@ -172,9 +174,12 @@ describe('stream()', () => {
   it('calls onError for malformed game chunks with a result token', async () => {
     const errors: unknown[] = [];
     const games: unknown[] = [];
-    for await (const game of stream(fromArray(['XBAD 1-0\n']), {
-      onError: (error) => errors.push(error),
-    })) {
+    const malformedStream = stream(fromArray(['XBAD 1-0\n']), {
+      onError: (error) => {
+        errors.push(error);
+      },
+    });
+    for await (const game of malformedStream) {
       games.push(game);
     }
     expect(games).toHaveLength(0);
@@ -189,14 +194,14 @@ describe('stream()', () => {
 
   it('strips a UTF-8 BOM from the start of the first chunk', async () => {
     const pgn = '[Event "Test"]\n[Result "1-0"]\n\n1. e4 1-0';
-    const games = await collect(stream(fromArray(['\uFEFF' + pgn])));
+    const games = await collect(stream(fromArray(['\u{FEFF}' + pgn])));
     expect(games).toHaveLength(1);
     expect(games[0]?.meta['Event']).toBe('Test');
   });
 
   it('strips a UTF-8 BOM when it arrives as its own chunk', async () => {
     const pgn = '[Event "Test"]\n[Result "1-0"]\n\n1. e4 1-0';
-    const games = await collect(stream(fromArray(['\uFEFF', pgn])));
+    const games = await collect(stream(fromArray(['\u{FEFF}', pgn])));
     expect(games).toHaveLength(1);
     expect(games[0]?.meta['Event']).toBe('Test');
   });
@@ -247,7 +252,9 @@ describe('stream()', () => {
     const pgn = '[Event "T"]\n[Result "1-0"]\n\n1. e4 1-0';
     const games = await collect(
       stream(fromArray([pgn]), {
-        onWarning: (w) => warnings.push(w.message),
+        onWarning: (w) => {
+          warnings.push(w.message);
+        },
       }),
     );
     expect(games).toHaveLength(1);

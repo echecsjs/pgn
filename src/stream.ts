@@ -18,8 +18,8 @@ async function* readableStreamToIterable(
   const reader = rs.getReader();
   try {
     while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
+      const { done: isDone, value } = await reader.read();
+      if (isDone) {
         break;
       }
       if (value !== undefined) {
@@ -31,7 +31,20 @@ async function* readableStreamToIterable(
   }
 }
 
-let _warned = false;
+const warnDeprecationOnce = (() => {
+  let isWarned = false;
+  return () => {
+    if (isWarned) {
+      return;
+    }
+
+    isWarned = true;
+    // eslint-disable-next-line no-console
+    console.warn(
+      '@echecs/pgn: stream() is deprecated. Use parse() instead. stream() will be removed in the next major version.',
+    );
+  };
+})();
 
 /**
  * Stream-parse a PGN AsyncIterable or Web Streams ReadableStream, yielding
@@ -51,13 +64,7 @@ export async function* stream(
   input: AsyncIterable<string> | StringReadableStream,
   options?: ParseOptions,
 ): AsyncGenerator<PGN> {
-  if (!_warned) {
-    _warned = true;
-    // eslint-disable-next-line no-console
-    console.warn(
-      '@echecs/pgn: stream() is deprecated. Use parse() instead. stream() will be removed in the next major version.',
-    );
-  }
+  warnDeprecationOnce();
 
   if ('getReader' in input) {
     yield* stream(readableStreamToIterable(input), options);
@@ -65,10 +72,10 @@ export async function* stream(
   }
   let buffer = '';
   let depth = 0; // brace depth — tracks {…} comment nesting
-  let inString = false; // whether we're inside a "…" tag value string
+  let isInString = false; // whether we're inside a "…" tag value string
   let scanOffset = 0; // first index in buffer not yet scanned for state changes
 
-  function* extractGames(final: boolean): Generator<string> {
+  function* extractGames(isFinal: boolean): Generator<string> {
     // Combined state-update and token-detection pass.
     //
     // State updates (depth/inString) only run for newly-seen characters
@@ -95,12 +102,12 @@ export async function* stream(
 
       // State updates only for newly-seen characters
       if (index >= scanOffset) {
-        if (inString) {
+        if (isInString) {
           if (ch === '\\') {
             // Skip the next character — it is escaped (handles \" and \\).
             index++;
           } else if (ch === '"') {
-            inString = false;
+            isInString = false;
           }
           continue;
         }
@@ -115,14 +122,14 @@ export async function* stream(
         // Quotes inside braces are not string delimiters (PGN tag values only
         // appear at depth 0).
         if (ch === '"' && depth === 0) {
-          inString = true;
+          isInString = true;
           continue;
         }
       }
 
       // Token detection at depth 0, only at characters that can start a
       // result token ('1', '0', '*'). Regex is called at most once per candidate.
-      if (!inString && depth === 0 && RESULT_STARTS.has(ch)) {
+      if (!isInString && depth === 0 && RESULT_STARTS.has(ch)) {
         re.lastIndex = index;
         const m = re.exec(buffer);
         if (m && m.index === index) {
@@ -136,7 +143,7 @@ export async function* stream(
 
     scanOffset = buffer.length;
 
-    if (final && lastIndex < buffer.length) {
+    if (isFinal && lastIndex < buffer.length) {
       const remainder = buffer.slice(lastIndex).trim();
       if (remainder.length > 0) {
         yield remainder;
@@ -157,7 +164,7 @@ export async function* stream(
     // accumulated). This covers both the first chunk and the degenerate case
     // where the BOM arrives as its own chunk followed by the rest of the input.
     if (buffer.length === 0) {
-      buffer = chunk.replace(/^\uFEFF/, '');
+      buffer = chunk.replace(/^\u{FEFF}/u, '');
     } else {
       buffer += chunk;
     }

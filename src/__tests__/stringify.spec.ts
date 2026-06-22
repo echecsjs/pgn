@@ -86,7 +86,7 @@ describe('stringify', () => {
       const output = stringify(game!);
       // movetext is after the blank line following tags (or after first \n\n)
       const movetext = output.split('\n\n').at(-1)!;
-      return movetext.split(' ')[1]!;
+      return movetext.split(' ', 2)[1]!;
     }
 
     it('serializes a simple piece move', () => {
@@ -294,7 +294,9 @@ describe('stringify', () => {
       const [game] = parse('1. e4 { [%clk 0:01:00] } e5 1-0');
       game!.moves[0]![1]!.clock = -5;
       const output = stringify(game!, {
-        onWarning: (w) => warnings.push(w.message),
+        onWarning: (w) => {
+          warnings.push(w.message);
+        },
       });
       expect(warnings.length).toBeGreaterThan(0);
       expect(output).toContain('[%clk 0:00:00]');

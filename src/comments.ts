@@ -40,8 +40,9 @@ function parseCommentCommands(raw: string): CommentFields {
   const arrows: Arrow[] = [];
   const squares: SquareAnnotation[] = [];
   text = text.replaceAll(CAL_CSL_RE, (_match, tokens: string) => {
-    for (const token of tokens.split(',').map((t) => t.trim())) {
-      const color = (token[0]?.toUpperCase() ?? '') as AnnotationColor;
+    for (const rawToken of tokens.split(',')) {
+      const token = rawToken.trim();
+      const color = (token.at(0)?.toUpperCase() ?? '') as AnnotationColor;
       if (!color || !/^[BCGORY]$/.test(color)) {
         continue;
       }
@@ -72,9 +73,9 @@ function parseCommentCommands(raw: string): CommentFields {
     const hString = clkMatch[1] ?? '0';
     const mString = clkMatch[2] ?? '0';
     const sString = clkMatch[3] ?? '0';
-    const h = Number.parseInt(hString, 10);
-    const m = Number.parseInt(mString, 10);
-    const s = Number.parseFloat(sString);
+    const h = Number(hString);
+    const m = Number(mString);
+    const s = Number(sString);
     result.clock = h * 3600 + m * 60 + s;
     text = removeMatch(text, clkMatch);
   }
@@ -82,21 +83,18 @@ function parseCommentCommands(raw: string): CommentFields {
   // [%eval]
   const evalMatch = EVAL_RE.exec(text);
   if (evalMatch) {
-    const depth =
-      evalMatch[3] === undefined
-        ? undefined
-        : Number.parseInt(evalMatch[3], 10);
+    const depth = evalMatch[3] === undefined ? undefined : Number(evalMatch[3]);
     if (evalMatch[1] !== undefined) {
       result.eval = {
         ...(depth !== undefined && { depth }),
         type: 'mate',
-        value: Number.parseInt(evalMatch[1], 10),
+        value: Number(evalMatch[1]),
       };
     } else if (evalMatch[2] !== undefined) {
       result.eval = {
         ...(depth !== undefined && { depth }),
         type: 'cp',
-        value: Number.parseFloat(evalMatch[2]),
+        value: Number(evalMatch[2]),
       };
     }
     text = removeMatch(text, evalMatch);
