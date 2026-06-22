@@ -410,8 +410,8 @@ describe('NAG nag_import', () => {
   });
 
   it('parses ± (U+00B1) as annotation', () => {
-    expect(white('e4\u00B1')).toMatchObject({
-      annotations: ['\u00B1'],
+    expect(white('e4\u{B1}')).toMatchObject({
+      annotations: ['\u{B1}'],
       piece: 'pawn',
       to: 'e4',
     });

@@ -128,9 +128,9 @@ function stringifyMoveList(
     }
 
     if (black !== undefined) {
-      const needsMoveNumber = white === undefined || hasAnnotation(white);
+      const isNeedsMoveNumber = white === undefined || hasAnnotation(white);
 
-      if (needsMoveNumber) {
+      if (isNeedsMoveNumber) {
         tokens.push(`${moveNumber}...`);
       }
 

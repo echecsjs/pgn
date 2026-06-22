@@ -25,7 +25,8 @@ function stringifyTags(meta: Meta): string {
     }
   }
 
-  for (const key of Object.keys(meta).toSorted()) {
+  const sortedKeys = Object.keys(meta).toSorted((a, b) => a.localeCompare(b));
+  for (const key of sortedKeys) {
     if (!stringSet.has(key)) {
       const value = meta[key];
       if (value !== undefined) {

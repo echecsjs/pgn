@@ -70,7 +70,7 @@ describe('PGN Parser', () => {
   });
 
   it('strips a UTF-8 BOM from the start of input', () => {
-    const withBom = '\uFEFF[Event "Test"]\n[Result "1-0"]\n\n1. e4 1-0';
+    const withBom = '\u{FEFF}[Event "Test"]\n[Result "1-0"]\n\n1. e4 1-0';
     const result = parse(withBom);
     expect(result).toHaveLength(1);
     expect(result[0]?.meta['Event']).toBe('Test');
@@ -135,7 +135,11 @@ describe('PGN Parser', () => {
   it('calls onWarning for each missing STR tag', () => {
     const warnings: unknown[] = [];
     // Tagless game — all 7 STR tags missing
-    const result = parse('1. e4 1-0', { onWarning: (w) => warnings.push(w) });
+    const result = parse('1. e4 1-0', {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(result).toHaveLength(1);
     expect(warnings).toHaveLength(7);
     expect(warnings[0]).toMatchObject({
@@ -151,7 +155,11 @@ describe('PGN Parser', () => {
     const pgn =
       '[Event "E"]\n[Site "S"]\n[Date "2000.01.01"]\n[Round "1"]\n' +
       '[White "W"]\n[Black "B"]\n[Result "1-0"]\n\n1. e4 1-0';
-    parse(pgn, { onWarning: (w) => warnings.push(w) });
+    parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(warnings).toHaveLength(0);
   });
 
@@ -165,7 +173,11 @@ describe('PGN Parser', () => {
     const pgn =
       '[Event "E"]\n[Site "S"]\n[Date "2000.01.01"]\n[Round "1"]\n' +
       '[White "W"]\n[Black "B"]\n[Result "1-0"]\n\n5. e4 e5 1-0';
-    const result = parse(pgn, { onWarning: (w) => warnings.push(w) });
+    const result = parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(result).toHaveLength(1);
     expect(warnings).toHaveLength(1);
     expect(warnings[0]).toMatchObject({
@@ -182,7 +194,11 @@ describe('PGN Parser', () => {
     const pgn =
       '[Event "E"]\n[Site "S"]\n[Date "2000.01.01"]\n[Round "1"]\n' +
       '[White "W"]\n[Black "B"]\n[Result "1/2-1/2"]\n\n1. e4 1-0';
-    const result = parse(pgn, { onWarning: (w) => warnings.push(w) });
+    const result = parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(result).toHaveLength(1);
     // Only the result mismatch warning — no missing STR warnings (all present)
     expect(warnings).toHaveLength(1);
@@ -200,7 +216,11 @@ describe('PGN Parser', () => {
     const pgn =
       '[Event "E"]\n[Site "S"]\n[Date "2000.01.01"]\n[Round "1"]\n' +
       '[White "W"]\n[Black "B"]\n[Result "1-0"]\n\n1. e4 1-0';
-    parse(pgn, { onWarning: (w) => warnings.push(w) });
+    parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     // All 7 STR tags present and matching — zero warnings expected
     expect(warnings).toHaveLength(0);
   });
@@ -208,7 +228,11 @@ describe('PGN Parser', () => {
   it('does not warn about Result mismatch when Result tag is absent', () => {
     const warnings: unknown[] = [];
     // No tags at all — only STR missing warnings, not a result mismatch
-    parse('1. e4 1-0', { onWarning: (w) => warnings.push(w) });
+    parse('1. e4 1-0', {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(
       warnings.every(
         (w) =>
@@ -223,7 +247,11 @@ describe('PGN Parser', () => {
     const warnings: unknown[] = [];
     const pgn =
       '[Event "First"]\n[Event "Second"]\n[Result "1-0"]\n\n1. e4 1-0';
-    const result = parse(pgn, { onWarning: (w) => warnings.push(w) });
+    const result = parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     expect(result).toHaveLength(1);
     // Last-write-wins: meta.Event should be "Second"
     expect(result[0]?.meta['Event']).toBe('Second');
@@ -242,7 +270,11 @@ describe('PGN Parser', () => {
     // Line 1: [Event "First"], line 2: [Event "Second"] — duplicate is at line 2, col 1
     const pgn =
       '[Event "First"]\n[Event "Second"]\n[Result "1-0"]\n\n1. e4 1-0';
-    parse(pgn, { onWarning: (w) => warnings.push(w) });
+    parse(pgn, {
+      onWarning: (w) => {
+        warnings.push(w);
+      },
+    });
     interface Warning {
       column: number;
       line: number;
@@ -261,7 +293,9 @@ describe('PGN Parser', () => {
     const errors: unknown[] = [];
     // "XBAD" starts at offset 0, line 1, column 1 — gives a concrete anchor
     const result = parse('XBAD', {
-      onError: (error) => errors.push(error),
+      onError: (error) => {
+        errors.push(error);
+      },
     });
     expect(result).toEqual([]);
     expect(errors).toHaveLength(1);

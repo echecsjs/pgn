@@ -25,7 +25,7 @@ function toParseError(thrown: unknown): ParseError {
  * @param input
  */
 function parse(input: string, options?: ParseOptions): PGN[] {
-  const cleaned = input.replace(/^\uFEFF/, '').trim();
+  const cleaned = input.replace(/^\u{FEFF}/u, '').trim();
 
   try {
     const games = parser.parse(cleaned, {

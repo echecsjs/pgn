@@ -19,7 +19,7 @@ function readFile(path: string): string {
   const filename = require.resolve(path);
   // Strip BOM before passing to comparison parsers — @echecs/pgn handles it
   // internally, but pgn-parser and chess.js do not accept BOM-prefixed input.
-  return readFileSync(filename, 'utf8').replace(/^\uFEFF/, '');
+  return readFileSync(filename, 'utf8').replace(/^\u{FEFF}/u, '');
 }
 
 // Load all fixture files
