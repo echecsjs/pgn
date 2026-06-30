@@ -45,8 +45,8 @@ importers:
         specifier: ^4.16.2
         version: 4.17.0(@typescript-eslint/utils@8.62.0(eslint@10.5.0)(typescript@6.0.3))(eslint@10.5.0)
       eslint-plugin-unicorn:
-        specifier: ^68.0.0
-        version: 68.0.0(eslint@10.5.0)
+        specifier: ^69.0.0
+        version: 69.0.0(eslint@10.5.0)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -922,8 +922,8 @@ packages:
       oxc-resolver:
         optional: true
 
-  electron-to-chromium@1.5.380:
-    resolution: {integrity: sha512-W6d5AbuEoRayO447cqrg6lKJIlscgRnnxOZl/08kfV71BQDoEBC7Wwis68z87LjyK6f4kWyTaubuDbhHKrZkbA==}
+  electron-to-chromium@1.5.381:
+    resolution: {integrity: sha512-n9Wa6yB+vDsGuA8AKbl/0z7HbvWqt5jxIdvr1IUicd0ryPrk7/xzwqLv8D9AbbvZ6avVNtXYLTfmgFHkwkyelg==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -992,8 +992,8 @@ packages:
       eslint-import-resolver-node:
         optional: true
 
-  eslint-plugin-unicorn@68.0.0:
-    resolution: {integrity: sha512-mHYWvX948Q4H3bGc39bsNMxD/leOuNI+Iws9NVsoSz5VA7EGP86wnz7mZ/SPSvRhefT8L4hd8DHfDuGC+lIoCQ==}
+  eslint-plugin-unicorn@69.0.0:
+    resolution: {integrity: sha512-ZN/KtHr9hQ6AOByANSNJpsDbo/+Nn+EyQ6blK4w+dcmS/xpYkqLLfrUc+NA/wOK6vF5uEUvhn8my5B/3sruB9g==}
     engines: {node: '>=22'}
     peerDependencies:
       eslint: '>=10.4'
@@ -2434,7 +2434,7 @@ snapshots:
     dependencies:
       baseline-browser-mapping: 2.10.40
       caniuse-lite: 1.0.30001799
-      electron-to-chromium: 1.5.380
+      electron-to-chromium: 1.5.381
       node-releases: 2.0.50
       update-browserslist-db: 1.2.3(browserslist@4.28.4)
 
@@ -2491,7 +2491,7 @@ snapshots:
 
   dts-resolver@3.0.0: {}
 
-  electron-to-chromium@1.5.380: {}
+  electron-to-chromium@1.5.381: {}
 
   emoji-regex@10.6.0: {}
 
@@ -2550,7 +2550,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-unicorn@68.0.0(eslint@10.5.0):
+  eslint-plugin-unicorn@69.0.0(eslint@10.5.0):
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
       '@eslint-community/eslint-utils': 4.9.1(eslint@10.5.0)
