@@ -10,6 +10,7 @@
     "@mliebelt/pgn-parser": "^1.4.15",
     "@types/node": "^26.0.0",
     "@typescript-eslint/parser": "^8.60.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@vitest/coverage-v8": "^4.1.7",
     "@vitest/eslint-plugin": "^1.6.18",
     "chess.js": "^1.4.0",
@@ -25,7 +26,7 @@
     "prettier": "^3.8.3",
     "tsdown": "^0.22.0",
     "typedoc": "^0.28.19",
-    "typescript": "^6.0.3",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "typescript-eslint": "^8.60.0",
     "vitest": "^4.1.7"
   },
