@@ -14,13 +14,17 @@ import { describe, expect, it } from 'vitest';
 
 import { parse } from '../index.js';
 
-/** Parse a move string as white's first move and return the Notation object. */
+/**
+Parse a move string as white's first move and return the Notation object.
+*/
 function white(san: string) {
   const games = parse(`[Event "T"]\n[Result "1-0"]\n\n1. ${san} 1-0`);
   return games[0]?.moves[0]?.[1];
 }
 
-/** Parse a move string as black's first move and return the Notation object. */
+/**
+Parse a move string as black's first move and return the Notation object.
+*/
 function black(san: string) {
   const games = parse(`[Event "T"]\n[Result "1-0"]\n\n1. e4 ${san} 1-0`);
   return games[0]?.moves[0]?.[2];

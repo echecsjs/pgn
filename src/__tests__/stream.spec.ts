@@ -9,10 +9,7 @@ async function* chunksOf(s: string, size: number): AsyncGenerator<string> {
 }
 
 async function collect<T>(gen: AsyncGenerator<T>): Promise<T[]> {
-  const results: T[] = [];
-  for await (const item of gen) {
-    results.push(item);
-  }
+  const results: T[] = await Array.fromAsync(gen);
   return results;
 }
 

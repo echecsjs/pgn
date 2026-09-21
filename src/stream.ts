@@ -129,16 +129,18 @@ export async function* stream(
 
       // Token detection at depth 0, only at characters that can start a
       // result token ('1', '0', '*'). Regex is called at most once per candidate.
-      if (!isInString && depth === 0 && RESULT_STARTS.has(ch)) {
-        re.lastIndex = index;
-        const m = re.exec(buffer);
-        if (m && m.index === index) {
-          const end = index + m[0].length;
-          yield buffer.slice(lastIndex, end);
-          lastIndex = end;
-          index = end - 1; // outer loop will increment past the consumed token
-        }
+      if (isInString || depth !== 0 || !RESULT_STARTS.has(ch)) {
+        continue;
       }
+      re.lastIndex = index;
+      const m = re.exec(buffer);
+      if (!m || m.index !== index) {
+        continue;
+      }
+      const end = index + m[0].length;
+      yield buffer.slice(lastIndex, end);
+      lastIndex = end;
+      index = end - 1; // outer loop will increment past the consumed token
     }
 
     scanOffset = buffer.length;

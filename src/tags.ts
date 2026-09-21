@@ -27,11 +27,13 @@ function stringifyTags(meta: Meta): string {
 
   const sortedKeys = Object.keys(meta).toSorted((a, b) => a.localeCompare(b));
   for (const key of sortedKeys) {
-    if (!stringSet.has(key)) {
-      const value = meta[key];
-      if (value !== undefined) {
-        lines.push(`[${key} "${escapeTagValue(value)}"]`);
-      }
+    if (stringSet.has(key)) {
+      continue;
+    }
+
+    const value = meta[key];
+    if (value !== undefined) {
+      lines.push(`[${key} "${escapeTagValue(value)}"]`);
     }
   }
 

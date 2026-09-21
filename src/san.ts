@@ -20,18 +20,12 @@ function applyIndicators(san: string, move: Notation): string {
   if (move.checkmate) {
     return san + '#';
   }
-  if (move.check) {
-    return san + '+';
-  }
-  return san;
+  return move.check ? san + '+' : san;
 }
 
 function stringifySAN(move: Notation): string {
   if (move.castling) {
-    if (move.long) {
-      return applyIndicators('O-O-O', move);
-    }
-    return applyIndicators('O-O', move);
+    return applyIndicators(move.long ? 'O-O-O' : 'O-O', move);
   }
 
   let san = '';
