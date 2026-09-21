@@ -110,56 +110,47 @@ function parseCommentCommands(raw: string): CommentFields {
 }
 
 function applyCommentFields(move: Notation, fields: CommentFields): Notation {
-  const out: Notation = {
+  return {
+    ...(move.annotations !== undefined && { annotations: move.annotations }),
+    ...(fields.arrows !== undefined && { arrows: fields.arrows }),
     capture: move.capture,
     castling: move.castling,
     check: move.check,
     checkmate: move.checkmate,
+    ...(fields.clock !== undefined && { clock: fields.clock }),
+    ...(fields.eval !== undefined && { eval: fields.eval }),
+    ...(fields.comment !== undefined && { comment: fields.comment }),
     from: move.from,
     long: move.long,
     piece: move.piece,
     promotion: move.promotion,
+    ...(fields.squares !== undefined && { squares: fields.squares }),
     to: move.to,
+    ...(move.variants !== undefined && { variants: move.variants }),
   };
-  if (move.annotations !== undefined) {
-    out.annotations = move.annotations;
+}
+
+function processHalfMove(pair: NotationList[number], index: number): void {
+  const move = pair[index] as Notation | undefined;
+  if (move === undefined) {
+    return;
   }
-  if (fields.arrows !== undefined) {
-    out.arrows = fields.arrows;
-  }
-  if (fields.squares !== undefined) {
-    out.squares = fields.squares;
-  }
-  if (fields.clock !== undefined) {
-    out.clock = fields.clock;
-  }
-  if (fields.eval !== undefined) {
-    out.eval = fields.eval;
-  }
-  if (fields.comment !== undefined) {
-    out.comment = fields.comment;
+
+  if (move.comment !== undefined) {
+    const fields = parseCommentCommands(move.comment);
+    pair[index] = applyCommentFields(move, fields);
   }
   if (move.variants !== undefined) {
-    out.variants = move.variants;
+    for (const variation of move.variants) {
+      processMoveList(variation);
+    }
   }
-  return out;
 }
 
 function processMoveList(moves: NotationList): void {
   for (const pair of moves) {
     for (let index = 1; index <= 2; index++) {
-      const move = pair[index] as Notation | undefined;
-      if (move !== undefined) {
-        if (move.comment !== undefined) {
-          const fields = parseCommentCommands(move.comment);
-          pair[index] = applyCommentFields(move, fields);
-        }
-        if (move.variants !== undefined) {
-          for (const variation of move.variants) {
-            processMoveList(variation);
-          }
-        }
-      }
+      processHalfMove(pair, index);
     }
   }
 }

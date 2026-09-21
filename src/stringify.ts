@@ -33,10 +33,9 @@ function stringifyEval(evaluation: Eval): string {
     'depth' in evaluation && evaluation.depth !== undefined
       ? `,${evaluation.depth}`
       : '';
-  if (evaluation.type === 'mate') {
-    return `[%eval #${evaluation.value}${depth}]`;
-  }
-  return `[%eval ${evaluation.value.toFixed(2)}${depth}]`;
+  return evaluation.type === 'mate'
+    ? `[%eval #${evaluation.value}${depth}]`
+    : `[%eval ${evaluation.value.toFixed(2)}${depth}]`;
 }
 
 function stringifyComment(move: Notation, options?: StringifyOptions): string {
@@ -74,11 +73,7 @@ function stringifyComment(move: Notation, options?: StringifyOptions): string {
     parts.push(move.comment);
   }
 
-  if (parts.length === 0) {
-    return '';
-  }
-
-  return `{ ${parts.join(' ')} }`;
+  return parts.length === 0 ? '' : `{ ${parts.join(' ')} }`;
 }
 
 // ─── Move list ────────────────────────────────────────────────────────────────
@@ -127,32 +122,32 @@ function stringifyMoveList(
       }
     }
 
-    if (black !== undefined) {
-      const isNeedsMoveNumber = white === undefined || hasAnnotation(white);
+    if (black === undefined) {
+      continue;
+    }
 
-      if (isNeedsMoveNumber) {
-        tokens.push(`${moveNumber}...`);
-      }
+    const isNeedsMoveNumber = white === undefined || hasAnnotation(white);
 
-      tokens.push(stringifySAN(black));
+    if (isNeedsMoveNumber) {
+      tokens.push(`${moveNumber}...`);
+    }
 
-      if (black.annotations && black.annotations.length > 0) {
-        tokens.push(
-          black.annotations
-            .map((a) => (/^\d+$/.test(a) ? `$${a}` : a))
-            .join(' '),
-        );
-      }
+    tokens.push(stringifySAN(black));
 
-      const blackComment = stringifyComment(black, options);
-      if (blackComment) {
-        tokens.push(blackComment);
-      }
+    if (black.annotations && black.annotations.length > 0) {
+      tokens.push(
+        black.annotations.map((a) => (/^\d+$/.test(a) ? `$${a}` : a)).join(' '),
+      );
+    }
 
-      if (black.variants && black.variants.length > 0) {
-        for (const variation of black.variants) {
-          tokens.push(`(${stringifyMoveList(variation, options)})`);
-        }
+    const blackComment = stringifyComment(black, options);
+    if (blackComment) {
+      tokens.push(blackComment);
+    }
+
+    if (black.variants && black.variants.length > 0) {
+      for (const variation of black.variants) {
+        tokens.push(`(${stringifyMoveList(variation, options)})`);
       }
     }
   }
@@ -172,10 +167,9 @@ function stringifyOne(game: PGN, options?: StringifyOptions): string {
 }
 
 function stringify(input: PGN | PGN[], options?: StringifyOptions): string {
-  if (Array.isArray(input)) {
-    return input.map((game) => stringifyOne(game, options)).join('\n');
-  }
-  return stringifyOne(input, options);
+  return Array.isArray(input)
+    ? input.map((game) => stringifyOne(game, options)).join('\n')
+    : stringifyOne(input, options);
 }
 
 export { stringify };
