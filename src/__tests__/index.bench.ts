@@ -1,6 +1,8 @@
+/* eslint-disable vitest/expect-expect -- benchmarks measure via the bench fixture, not assertions */
+
 // import { parse } from '@mliebelt/pgn-parser';
 import { readFileSync } from 'node:fs';
-import { bench, describe } from 'vitest';
+import { describe, test } from 'vitest';
 
 import { parse } from '../index.js';
 
@@ -42,9 +44,11 @@ const tests = {
 
 describe('PGN Parser', () => {
   for (const [label, input] of Object.entries(tests)) {
-    bench(label, () => {
-      // parse(input, { startRule: 'games' });
-      parse(input);
+    test(label, async ({ bench }) => {
+      await bench(label, () => {
+        // parse(input, { startRule: 'games' });
+        parse(input);
+      }).run();
     });
   }
 });

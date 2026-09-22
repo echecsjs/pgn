@@ -1,3 +1,5 @@
+/* eslint-disable vitest/expect-expect -- benchmarks measure via the bench fixture, not assertions */
+
 // Package size comparison (as of 2026-03-17, measured with `npm pack --dry-run`):
 //
 // | Package                  | Pack size | Unpacked |
@@ -11,7 +13,7 @@ import { parseGame, parseGames } from '@mliebelt/pgn-parser';
 import { Chess } from 'chess.js';
 import { readFileSync } from 'node:fs';
 import { parse as pgnParserParse } from 'pgn-parser';
-import { bench, describe } from 'vitest';
+import { describe, test } from 'vitest';
 
 import { parse } from '../index.js';
 
@@ -68,20 +70,28 @@ const multiGameFixtures = {
 
 for (const [label, input] of Object.entries(singleGameFixtures)) {
   describe(`single-game: ${label}`, () => {
-    bench('@echecs/pgn', () => {
-      parse(input);
+    test('@echecs/pgn', async ({ bench }) => {
+      await bench('@echecs/pgn', () => {
+        parse(input);
+      }).run();
     });
 
-    bench('@mliebelt/pgn-parser', () => {
-      parseGame(input);
+    test('@mliebelt/pgn-parser', async ({ bench }) => {
+      await bench('@mliebelt/pgn-parser', () => {
+        parseGame(input);
+      }).run();
     });
 
-    bench('pgn-parser', () => {
-      pgnParserParse(input);
+    test('pgn-parser', async ({ bench }) => {
+      await bench('pgn-parser', () => {
+        pgnParserParse(input);
+      }).run();
     });
 
-    bench('chess.js', () => {
-      new Chess().loadPgn(input);
+    test('chess.js', async ({ bench }) => {
+      await bench('chess.js', () => {
+        new Chess().loadPgn(input);
+      }).run();
     });
   });
 }
@@ -92,16 +102,22 @@ for (const [label, input] of Object.entries(singleGameFixtures)) {
 
 for (const [label, input] of Object.entries(multiGameFixtures)) {
   describe(`multi-game: ${label}`, () => {
-    bench('@echecs/pgn', () => {
-      parse(input);
+    test('@echecs/pgn', async ({ bench }) => {
+      await bench('@echecs/pgn', () => {
+        parse(input);
+      }).run();
     });
 
-    bench('@mliebelt/pgn-parser', () => {
-      parseGames(input);
+    test('@mliebelt/pgn-parser', async ({ bench }) => {
+      await bench('@mliebelt/pgn-parser', () => {
+        parseGames(input);
+      }).run();
     });
 
-    bench('pgn-parser', () => {
-      pgnParserParse(input);
+    test('pgn-parser', async ({ bench }) => {
+      await bench('pgn-parser', () => {
+        pgnParserParse(input);
+      }).run();
     });
   });
 }
