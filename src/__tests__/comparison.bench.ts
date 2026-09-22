@@ -46,7 +46,6 @@ const singleGameFixtures = {
   comment,
   promotion,
   single,
-  variants,
 };
 
 // Multi-game fixtures (exclude chess.js, which only handles one game at a time)
@@ -95,6 +94,23 @@ for (const [label, input] of Object.entries(singleGameFixtures)) {
     });
   });
 }
+
+// variants.pgn: pgn-parser chokes on Unicode NAG symbols (e.g. ±) and
+// chess.js does not support RAV sub-lines — compare the parsers that can
+// handle it.
+describe('single-game: variants', () => {
+  test('@echecs/pgn', async ({ bench }) => {
+    await bench('@echecs/pgn', () => {
+      parse(variants);
+    }).run();
+  });
+
+  test('@mliebelt/pgn-parser', async ({ bench }) => {
+    await bench('@mliebelt/pgn-parser', () => {
+      parseGame(variants);
+    }).run();
+  });
+});
 
 // ============================================================================
 // Multi-game fixtures: exclude chess.js (only handles single game)
