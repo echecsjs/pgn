@@ -14,8 +14,8 @@ export default typescript.config(
   importing.flatConfigs.typescript,
   unicorn.configs.recommended,
   /**
-   * Common
-   */
+  Common
+  */
   {
     languageOptions: {
       ecmaVersion: 'latest',
@@ -66,8 +66,17 @@ export default typescript.config(
     },
   },
   /**
-   * TypeScript
-   */
+  Config files
+  */
+  {
+    files: ['*.mjs'],
+    rules: {
+      'unicorn/no-top-level-side-effects': 'off',
+    },
+  },
+  /**
+  TypeScript
+  */
   {
     files: ['**/*.{mts,ts,tsx}'],
     languageOptions: {
@@ -113,8 +122,8 @@ export default typescript.config(
     },
   },
   /**
-   * Grammar file
-   */
+  Grammar file
+  */
   {
     files: ['**/grammar.cjs'],
     rules: {
@@ -122,8 +131,8 @@ export default typescript.config(
     },
   },
   /**
-   * Tests
-   */
+  Tests
+  */
   {
     files: ['**/__tests__/**/*.ts', '**/*.spec.ts', '**/*.test.ts'],
     plugins: { vitest },
